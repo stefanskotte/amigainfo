@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amiga Screw Reference — A500 · A600 · A1200</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f1eb;
+    --bg-card: #ffffff;
+    --bg-nav: #2c2a26;
+    --bg-nav-hover: #3d3a34;
+    --bg-nav-active: #4a4640;
+    --text: #2c2a26;
+    --text-muted: #7a756c;
+    --text-nav: #c8c3b8;
+    --text-nav-active: #f4f1eb;
+    --accent: #c45a2d;
+    --accent-light: #faeee8;
+    --border: #ddd8ce;
+    --teal: #1d9e75;
+    --teal-bg: #e1f5ee;
+    --blue: #2d6ab5;
+    --blue-bg: #e6f1fb;
+    --amber: #ba7517;
+    --amber-bg: #faeeda;
+    --red-bg: #fcebeb;
+    --red: #a32d2d;
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ─── Left navigation ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0;
+    width: 260px;
+    height: 100vh;
+    background: var(--bg-nav);
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    overflow-y: auto;
+  }
+
+  nav .logo {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+  }
+
+  nav .subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    line-height: 1.4;
+  }
+
+  nav .nav-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  nav a {
+    display: block;
+    color: var(--text-nav);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 4px;
+    transition: all 0.15s ease;
+  }
+
+  nav a:hover { background: var(--bg-nav-hover); color: var(--text-nav-active); }
+  nav a.active { background: var(--bg-nav-active); color: var(--text-nav-active); }
+
+  nav a .model-chip {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: rgba(196,90,45,0.2);
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-right: 8px;
+    font-weight: 600;
+  }
+
+  nav .spacer { flex: 1; }
+
+  nav .nav-footer {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ─── Main content ─── */
+  main {
+    margin-left: 260px;
+    flex: 1;
+    padding: 3rem 3.5rem 4rem;
+    max-width: 900px;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.25rem;
+  }
+
+  .page-subtitle {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 3rem;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+  }
+
+  .stat-card .stat-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .stat-card .stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .stat-card .stat-detail {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Model sections */
+  .model-section {
+    margin-bottom: 3.5rem;
+    scroll-margin-top: 2rem;
+  }
+
+  .model-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--text);
+  }
+
+  .model-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .model-header .badge {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* Tables */
+  .screw-table-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  thead th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.02);
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    vertical-align: top;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  tbody tr:hover { background: rgba(0,0,0,0.015); }
+
+  .placement-note {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Pills */
+  .pill {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .pill-6mm { background: var(--teal-bg); color: var(--teal); }
+  .pill-8mm { background: var(--blue-bg); color: var(--blue); }
+  .pill-special { background: var(--amber-bg); color: var(--amber); }
+
+  /* Notes & warnings */
+  .info-box {
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.75rem;
+  }
+
+  .info-box.note {
+    background: var(--bg-card);
+    border-left: 3px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  .info-box.warning {
+    background: var(--amber-bg);
+    border-left: 3px solid var(--amber);
+    color: #5a3e0a;
+  }
+
+  .info-box strong { font-weight: 600; }
+
+  /* Common specs footer */
+  .common-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-top: 2rem;
+    scroll-margin-top: 2rem;
+  }
+
+  .common-section h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .common-section p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .common-section ul {
+    list-style: none;
+    margin-top: 12px;
+  }
+
+  .common-section li {
+    font-size: 14px;
+    color: var(--text);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    gap: 10px;
+  }
+
+  .common-section li:last-child { border-bottom: none; }
+
+  .common-section li .li-label {
+    font-weight: 600;
+    min-width: 100px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  /* Responsive */
+  @media (max-width: 820px) {
+    nav { display: none; }
+    main { margin-left: 0; padding: 2rem 1.25rem; }
+    .stats-bar { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Amiga Screws</div>
+  <div class="subtitle">Hardware reference for the classic Commodore Amiga desktop models</div>
+
+  <div class="nav-label">Models</div>
+  <a href="#a500"><span class="model-chip">A500</span> Amiga 500</a>
+  <a href="#a600"><span class="model-chip">A600</span> Amiga 600</a>
+  <a href="#a1200"><span class="model-chip">A1200</span> Amiga 1200</a>
+
+  <div class="nav-label" style="margin-top: 1.5rem;">Reference</div>
+  <a href="#common">Common specifications</a>
+
+  <div class="spacer"></div>
+  <div class="nav-footer">
+    All screw specifications based on original Commodore factory hardware. Variations may exist across production runs and revisions.
+  </div>
+</nav>
+
+<main>
+  <h1>Amiga screw reference</h1>
+  <p class="page-subtitle">Case, motherboard and floppy drive screw types, sizes and placement for the A500, A600 and A1200.</p>
+
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-label">A500 / 500+</div>
+      <div class="stat-value">10</div>
+      <div class="stat-detail">6 case + 4 motherboard</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">A600</div>
+      <div class="stat-value">6</div>
+      <div class="stat-detail">6 case (no separate MB screws)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">A1200</div>
+      <div class="stat-value">10</div>
+      <div class="stat-detail">7 case + 3 motherboard</div>
+    </div>
+  </div>
+
+  <!-- ════════ A500 ════════ -->
+  <section class="model-section" id="a500">
+    <div class="model-header">
+      <h2>Amiga 500 / 500+</h2>
+      <span class="badge">10 screws</span>
+    </div>
+
+    <div class="screw-table-wrap">
+      <table>
+        <thead>
+          <tr><th>Qty</th><th>Size</th><th>Type</th><th>Placement</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>3</td>
+            <td><span class="pill pill-6mm">M3 × 6 mm</span></td>
+            <td>Phillips, convex head</td>
+            <td>Case bottom — front edge
+              <span class="placement-note">Underside, along the front lip of the case</span>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><span class="pill pill-8mm">M3 × 8 mm</span></td>
+            <td>Phillips, convex head</td>
+            <td>Case bottom — rear edge
+              <span class="placement-note">Underside, along the back of the case</span>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><span class="pill pill-6mm">M3 × 6 mm</span></td>
+            <td>Phillips</td>
+            <td>Motherboard mounting
+              <span class="placement-note">2× at front, 2× at left side</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box note">
+      The metal RF shielding is held by 4 Phillips screws plus bent metal clips. The floppy drive uses 4 separate screws (1 side + 3 from bottom) with a different thread — do not mix these with case screws. Some early A500 units used <strong>Torx T9</strong> or hex-socket (Allen) screws externally instead of Phillips.
+    </div>
+    <div class="info-box warning">
+      <strong>Case bump warning:</strong> Using 8 mm screws in the front holes risks creating raised, discoloured marks on the top shell from over-tightening. Always use 6 mm screws for the front.
+    </div>
+  </section>
+
+  <!-- ════════ A600 ════════ -->
+  <section class="model-section" id="a600">
+    <div class="model-header">
+      <h2>Amiga 600</h2>
+      <span class="badge">6 screws</span>
+    </div>
+
+    <div class="screw-table-wrap">
+      <table>
+        <thead>
+          <tr><th>Qty</th><th>Size</th><th>Type</th><th>Placement</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>6</td>
+            <td><span class="pill pill-6mm">M3 × 6 mm</span></td>
+            <td>Phillips</td>
+            <td>Case bottom — all six positions
+              <span class="placement-note">All visible when flipped over; no screws behind the Commodore sticker</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box note">
+      The A600 case also uses <strong>two side clips</strong> — one on the left near the floppy slot and one on the right near the PCMCIA port — that must be released with a flat screwdriver after removing the screws. The motherboard is not separately screwed down; it rests on standoffs held in place by the case halves. The floppy drive and hard disk caddy have their own separate mounting hardware.
+    </div>
+  </section>
+
+  <!-- ════════ A1200 ════════ -->
+  <section class="model-section" id="a1200">
+    <div class="model-header">
+      <h2>Amiga 1200</h2>
+      <span class="badge">10 screws</span>
+    </div>
+
+    <div class="screw-table-wrap">
+      <table>
+        <thead>
+          <tr><th>Qty</th><th>Size</th><th>Type</th><th>Placement</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>3</td>
+            <td><span class="pill pill-6mm">M3 × 6 mm</span></td>
+            <td>Phillips, convex head</td>
+            <td>Case bottom — front edge
+              <span class="placement-note">Underside, along front lip</span>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><span class="pill pill-8mm">M3 × 8 mm</span></td>
+            <td>Phillips</td>
+            <td>Case bottom — rear edge
+              <span class="placement-note">Above the mouse and joystick ports</span>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><span class="pill pill-8mm">M3 × 8 mm</span></td>
+            <td>Phillips</td>
+            <td>Case sides
+              <span class="placement-note">1× left side by floppy drive, 1× right side by PCMCIA slot</span>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><span class="pill pill-6mm">M3 × 6 mm</span></td>
+            <td>Phillips</td>
+            <td>Motherboard mounting
+              <span class="placement-note">1× front, 2× right side — varies by PCB revision</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box note">
+      <strong>Rev 1D.4 motherboards</strong> lack the rightmost PCB section (mouse port area), so the floppy drive bracket and one motherboard screw position shift slightly left compared to earlier revisions. The bottom-left motherboard screw may use a metal flap or nut underneath. The internal floppy drive is secured by <strong>2 separate bolts</strong> (M3 × 8 mm) through the rear of the case above the joystick/mouse ports.
+    </div>
+    <div class="info-box warning">
+      <strong>Case bump warning:</strong> As with the A500, never use 8 mm screws in the front case holes — 6 mm only to prevent damage to the top shell.
+    </div>
+  </section>
+
+  <!-- ════════ Common ════════ -->
+  <section class="common-section" id="common">
+    <h3>Common specifications across all models</h3>
+    <p>All case and motherboard screws share the same M3 thread and Phillips head across the A500, A600 and A1200. Floppy drive mounting screws are separate hardware with different dimensions.</p>
+    <ul>
+      <li><span class="li-label">Thread</span> M3 (3 mm diameter, ~0.5 mm pitch)</li>
+      <li><span class="li-label">Head type</span> Phillips (#2 driver) — convex / pan head</li>
+      <li><span class="li-label">Short screw</span> 6 mm — front case holes and motherboard</li>
+      <li><span class="li-label">Long screw</span> 8 mm (7.5–7.9 mm original) — rear and side case holes</li>
+      <li><span class="li-label">Material</span> Steel (originals) or stainless steel (replacements)</li>
+      <li><span class="li-label">Key rule</span> Always use 6 mm in front holes to avoid case bumps</li>
+    </ul>
+  </section>
+
+</main>
+
+<script>
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('.model-section, .common-section');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
